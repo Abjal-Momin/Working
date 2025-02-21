@@ -1,7 +1,6 @@
 const express = require("express");
 
 const app = express();
-
 app.use(express.json());
 
 const users = [];
@@ -91,7 +90,9 @@ app.post("/signup", function (req, res) {
   res.json({
     message: "You have signed up",
   });
+  console.log(users);
 });
+
 app.post("/signin", function (req, res) {
   const username = req.body.username;
   const password = req.body.password;
@@ -101,19 +102,20 @@ app.post("/signin", function (req, res) {
     if (users[i].username == username && users[i].password == password) {
       foundUser = users[i];
     }
-
-    if (foundUser) {
-      const token = generateToken();
-      foundUser.token = token;
-      res.json({
-        message: token,
-      });
-    } else {
-      res.status(403).send({
-        message: "Invalid username or password",
-      });
-    }
   }
+  if (foundUser) {
+    const token = generateToken();
+    foundUser.token = token;
+    res.json({
+      token: token,
+    });
+  } else {
+    res.status(403).send({
+      message: "Invalid username or password",
+    });
+  }
+  console.log(users);
+//   console.log(foundUser);
 });
 
 app.listen(3000);
