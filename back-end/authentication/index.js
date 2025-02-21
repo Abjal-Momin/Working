@@ -115,7 +115,26 @@ app.post("/signin", function (req, res) {
     });
   }
   console.log(users);
-//   console.log(foundUser);
+  //   console.log(foundUser);
+});
+
+app.get("/me", function (req, res) {
+  const token = req.headers.token;
+  let foundUser = null;
+  for (let i = 0; i < users.length; i++) {
+    if (users[i].token == token) {
+      foundUser = users[i];
+    }
+  }
+  if (foundUser) {
+    res.json({
+      username: foundUser.username,
+      password: foundUser.password,
+    });
+  } else
+    res.status(401).send({
+      message: "invalid token",
+    });
 });
 
 app.listen(3000);
