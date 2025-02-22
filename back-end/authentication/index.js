@@ -11,14 +11,22 @@ app.post("/signup", function (req, res) {
   const username = req.body.username;
   const password = req.body.password;
 
-  users.push({
-    username: username,
-    password: password,
-  });
+  const userExist = users.find((user) => user.username == username);
 
-  res.json({
-    message: "You have signed up",
-  });
+  if (userExist) {
+    res.status(403).send({
+      message: "User Name exists Try different one",
+    });
+  } else {
+    users.push({
+      username: username,
+      password: password,
+    });
+
+    res.json({
+      message: "You have signed up",
+    });
+  }
 });
 
 app.post("/signin", function (req, res) {
@@ -77,3 +85,4 @@ app.get("/me", function (req, res) {
 });
 
 app.listen(3000);
+
