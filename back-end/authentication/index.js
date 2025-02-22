@@ -48,7 +48,7 @@ app.post("/signin", function (req, res) {
       message: "Invalid username or password",
     });
   }
-  console.log(users);
+  // console.log(users);
 });
 
 app.get("/me", function (req, res) {
@@ -56,12 +56,14 @@ app.get("/me", function (req, res) {
   const decodedInformation = jwt.verify(token, JWT_SECRET);
   const username = decodedInformation.username;
 
-  let foundUser = null;
-  for (let i = 0; i < users.length; i++) {
-    if (users[i].username == username) {
-      foundUser = users[i];
-    }
-  }
+  // let foundUser = null;
+  // for (let i = 0; i < users.length; i++) {
+  //   if (users[i].username == username) {
+  //     foundUser = users[i];
+  //   }
+  // }
+
+  let foundUser = users.find((user) => user.username == username);
 
   if (foundUser) {
     res.json({
