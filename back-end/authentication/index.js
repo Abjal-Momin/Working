@@ -7,7 +7,12 @@ app.use(express.json());
 
 const users = [];
 
-app.post("/signup", function (req, res) {
+function logged(req, res, next) {
+  console.log(`${req.method} request came`);
+  next();
+}
+
+app.post("/signup", logged, function (req, res) {
   const username = req.body.username;
   const password = req.body.password;
 
@@ -29,7 +34,7 @@ app.post("/signup", function (req, res) {
   }
 });
 
-app.post("/signin", function (req, res) {
+app.post("/signin", logged, function (req, res) {
   const username = req.body.username;
   const password = req.body.password;
 
@@ -48,6 +53,8 @@ app.post("/signin", function (req, res) {
       },
       JWT_SECRET
     );
+    res.header("token", token);
+
     res.json({
       token: token,
     });
@@ -59,19 +66,24 @@ app.post("/signin", function (req, res) {
   // console.log(users);
 });
 
-app.get("/me", function (req, res) {
+function auth(req, res, next) {
   const token = req.headers.token;
   const decodedInformation = jwt.verify(token, JWT_SECRET);
   const username = decodedInformation.username;
 
-  // let foundUser = null;
-  // for (let i = 0; i < users.length; i++) {
-  //   if (users[i].username == username) {
-  //     foundUser = users[i];
-  //   }
-  // }
+  if (username) {
+    req.username = username;
+    next();
+  } else {
+    res.json({
+      message: "your not logged in",
+    });
+  }
+}
 
-  let foundUser = users.find((user) => user.username == username);
+app.get("/me", auth, function (req, res) {
+  let foundUser = users.find((user) => user.username == req.username);
+  // find will only find one element in entire array
 
   if (foundUser) {
     res.json({
@@ -85,4 +97,3 @@ app.get("/me", function (req, res) {
 });
 
 app.listen(3000);
-
