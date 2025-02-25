@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Auth Website</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  </head>
+
     <style>
       @keyframes fadeIn {
         from { opacity: 0; transform: translateY(-20px); }
@@ -24,7 +26,6 @@
           username: username,
           password: password,
         });
-
         alert(`${username} signed up`);
       }
 

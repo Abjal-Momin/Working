@@ -1,9 +1,11 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const JWT_SECRET = "afzalmomin";
+const cors = require("cors");
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 const users = [];
 
