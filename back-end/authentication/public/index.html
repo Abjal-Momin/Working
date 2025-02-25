@@ -5,13 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Auth Website</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
-
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .fade-in {
+        animation: fadeIn 0.5s ease-out;
+      }
+    </style>
     <script>
-      // const signUp = document.getElementById("signUp");
-      // const signIn = document.getElementById("signIn");
-      // const user = document.getElementById("user");
-      // const log = document.getElementById("log");
-
       async function signupSubmit() {
         const username = document.getElementById("signup-username").value;
         const password = document.getElementById("signup-password").value;
@@ -58,48 +62,79 @@
       }
     </script>
   </head>
-  <body>
-    <div id="signUp">
-      SignUp
-      <input
-        id="signup-username"
-        type="text"
-        name="username"
-        placeholder="Enter your Username"
-      />
-      <input
-        id="signup-password"
-        type="password"
-        name="password"
-        placeholder="Enter your Password"
-      />
-      <button onclick="signupSubmit()">Submit</button>
-    </div>
+  <body class="min-h-screen bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center p-4">
+    <div class="max-w-md w-full space-y-8 bg-white rounded-xl shadow-2xl p-8 fade-in">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8">Authentication</h2>
+      </div>
 
-    <div id="signIn">
-      SignIn
-      <input
-        id="signin-username"
-        type="text"
-        name="username"
-        placeholder="Enter your Username"
-      />
-      <input
-        id="signin-password"
-        type="password"
-        name="password"
-        placeholder="Enter your Password"
-      />
-      <button onclick="signinSubmit()">Submit</button>
-    </div>
+      <div id="signUp" class="space-y-4 mb-8">
+        <h3 class="text-xl font-semibold text-gray-700">Sign Up</h3>
+        <div class="space-y-2">
+          <input
+            id="signup-username"
+            type="text"
+            name="username"
+            placeholder="Enter your Username"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition"
+          />
+          <input
+            id="signup-password"
+            type="password"
+            name="password"
+            placeholder="Enter your Password"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition"
+          />
+          <button 
+            onclick="signupSubmit()"
+            class="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition duration-200"
+          >
+            Sign Up
+          </button>
+        </div>
+      </div>
 
-    <div id="user">
-      User Information:
-      <div id="userInfoShow"></div>
-    </div>
+      <div class="border-t border-gray-200 my-8"></div>
 
-    <div id="log">
-      <button onclick="logOut()">Log Out</button>
+      <div id="signIn" class="space-y-4 mb-8">
+        <h3 class="text-xl font-semibold text-gray-700">Sign In</h3>
+        <div class="space-y-2">
+          <input
+            id="signin-username"
+            type="text"
+            name="username"
+            placeholder="Enter your Username"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition"
+          />
+          <input
+            id="signin-password"
+            type="password"
+            name="password"
+            placeholder="Enter your Password"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition"
+          />
+          <button 
+            onclick="signinSubmit()"
+            class="w-full bg-pink-600 text-white py-2 rounded-lg hover:bg-pink-700 transition duration-200"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+
+      <div id="user" class="bg-gray-50 p-4 rounded-lg">
+        <h3 class="text-xl font-semibold text-gray-700 mb-2">User Information</h3>
+        <div id="userInfoShow" class="text-gray-600"></div>
+      </div>
+
+      <div id="log" class="text-center mt-4">
+        <button 
+          onclick="logOut()"
+          class="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition duration-200"
+        >
+          Log Out
+        </button>
+      </div>
     </div>
   </body>
 </html>

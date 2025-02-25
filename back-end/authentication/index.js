@@ -20,22 +20,14 @@ app.post("/signup", logged, function (req, res) {
   const username = req.body.username;
   const password = req.body.password;
 
-  const userExist = users.find((user) => user.username == username);
+  users.push({
+    username: username,
+    password: password,
+  });
 
-  if (userExist) {
-    res.status(403).send({
-      message: "User Name exists Try different one",
-    });
-  } else {
-    users.push({
-      username: username,
-      password: password,
-    });
-
-    res.json({
-      message: "You have signed up",
-    });
-  }
+  res.json({
+    message: "You have signed up",
+  });
 });
 
 app.post("/signin", logged, function (req, res) {
@@ -57,7 +49,6 @@ app.post("/signin", logged, function (req, res) {
       },
       JWT_SECRET
     );
-
     res.json({
       token: token,
     });
@@ -69,24 +60,19 @@ app.post("/signin", logged, function (req, res) {
   // console.log(users);
 });
 
-function auth(req, res, next) {
+app.get("/me", function (req, res) {
   const token = req.headers.token;
   const decodedInformation = jwt.verify(token, JWT_SECRET);
   const username = decodedInformation.username;
 
-  if (username) {
-    req.username = username;
-    next();
-  } else {
-    res.json({
-      message: "your not logged in",
-    });
-  }
-}
+  // let foundUser = null;
+  // for (let i = 0; i < users.length; i++) {
+  //   if (users[i].username == username) {
+  //     foundUser = users[i];
+  //   }
+  // }
 
-app.get("/me", logged, auth, function (req, res) {
-  let foundUser = users.find((user) => user.username == req.username);
-  // find will only find one element in entire array
+  let foundUser = users.find((user) => user.username == username);
 
   if (foundUser) {
     res.json({
