@@ -12,6 +12,10 @@ function logged(req, res, next) {
   next();
 }
 
+app.get("/", function (req, res) {
+  res.sendFile(__dirname + "/public/index.html");
+});
+
 app.post("/signup", logged, function (req, res) {
   const username = req.body.username;
   const password = req.body.password;
@@ -53,7 +57,6 @@ app.post("/signin", logged, function (req, res) {
       },
       JWT_SECRET
     );
-    res.header("token", token);
 
     res.json({
       token: token,
@@ -81,7 +84,7 @@ function auth(req, res, next) {
   }
 }
 
-app.get("/me", auth, function (req, res) {
+app.get("/me", logged, auth, function (req, res) {
   let foundUser = users.find((user) => user.username == req.username);
   // find will only find one element in entire array
 
